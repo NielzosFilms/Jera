@@ -1,0 +1,126 @@
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "nes.css/css/nes.min.css" layer(components);
+@import "@fontsource/press-start-2p";
+@import "@fontsource/vt323";
+
+@theme {
+    --font-body: "VT323", ui-monospace, monospace;
+    --font-pixel: "Press Start 2P", cursive;
+
+    /* Type scale: Press Start 2P is very wide, so keep sizes small.
+       Multiples of 8px keep the pixels crisp. */
+    --text-xs: 0.5rem;
+    --text-xs--line-height: 0.75rem;
+    --text-sm: 0.625rem;
+    --text-sm--line-height: 1.125rem;
+    --text-base: 0.75rem;
+    --text-base--line-height: 1.25rem;
+    --text-lg: 1rem;
+    --text-lg--line-height: 1.75rem;
+    --text-xl: 1.25rem;
+    --text-xl--line-height: 2rem;
+    --text-2xl: 1.5rem;
+    --text-2xl--line-height: 2rem;
+    --text-3xl: 2rem;
+    --text-3xl--line-height: 2.5rem;
+
+    /* VT323 is pretty small */
+    --text-body: 1.25rem;
+    --text-body--line-height: 1.5rem;
+    --text-body-lg: 1.5rem;
+    --text-body-lg--line-height: 2rem;
+
+    /* Semantic colors, matching NES.css */
+    --color-nes-bg: #212529;
+    --color-nes-surface: #2d3238;
+    --color-nes-text: #f8f9fa;
+    --color-nes-primary: #209cee;
+    --color-nes-success: #92cc41;
+    --color-nes-warning: #f7d51d;
+    --color-nes-error: #e76e55;
+    --color-nes-ink: #212529;
+    --color-nes-muted: #adafbc;
+}
+
+@layer base {
+    *, ::before, ::after {
+        box-sizing: border-box;
+    }
+
+    [class*="nes-"] {
+        image-rendering: pixelated;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-pixel font-normal;
+        margin: 0 0 1rem;
+    }
+
+    h1 {
+        @apply text-3xl;
+    }
+
+    h2 {
+        @apply text-2xl;
+    }
+
+    h3 {
+        @apply text-xl;
+    }
+
+    h4 {
+        @apply text-lg;
+    }
+
+    h5 {
+        @apply text-base;
+    }
+
+    h6 {
+        @apply text-sm;
+    }
+
+    p {
+        @apply text-base font-body;
+        margin: 0 0 1rem;
+        font-size: var(--text-body);
+        line-height: var(--text-body--line-height);
+    }
+
+    small {
+        @apply text-xs;
+    }
+
+    a {
+        @apply text-nes-primary underline;
+    }
+
+    a:hover {
+        @apply text-nes-primary;
+    }
+
+    ul, ol {
+        margin: 0 0 1rem;
+        padding-left: 1.5rem;
+    }
+
+    li {
+        @apply text-base font-body;
+        margin-bottom: 0.5rem;
+        font-size: var(--text-body);
+        line-height: var(--text-body--line-height);
+    }
+}
+
+@layer components {
+    /* This fixes the border gaps */
+    @media (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+        .nes-container.is-rounded,
+        .nes-container.is-rounded.is-dark {
+            border-image-repeat: unset;
+        }
+    }
+}
