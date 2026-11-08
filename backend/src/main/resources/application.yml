@@ -1,0 +1,8 @@
+spring.application.name: backend
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/jera
+        username: jera
+        password: jera
+    flyway:
+        enabled: true
