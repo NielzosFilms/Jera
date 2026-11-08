@@ -4,10 +4,10 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 @import "nes.css/css/nes.min.css" layer(components);
 @import "@fontsource/press-start-2p";
-@import "@fontsource/vt323";
+@import "@fontsource/pixelify-sans";
 
 @theme {
-    --font-body: "VT323", ui-monospace, monospace;
+    --font-body: "Pixelify Sans", ui-monospace, monospace;
     --font-pixel: "Press Start 2P", cursive;
 
     /* Type scale: Press Start 2P is very wide, so keep sizes small.

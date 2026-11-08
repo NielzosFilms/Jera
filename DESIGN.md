@@ -503,7 +503,7 @@ services:
 ## 16. Roadmap
 
 ### Phase 1 — Core loop (target: usable daily)
-- [ ] Project skeleton: Gradle (Kotlin), Angular, Docker Compose, arm64 build, Flyway, auth (single user, `user_id` everywhere)
+- [x] Project skeleton: Gradle (Kotlin), Angular, Docker Compose, arm64 build, Flyway, auth (single user, `user_id` everywhere)
 - [ ] Skills (with runes), attributes, activity types seeded from defaults
 - [ ] ActivityEvent log + XP engine + projections + rebuild command
 - [ ] Initial assessment onboarding ("The Norns weigh your past")
