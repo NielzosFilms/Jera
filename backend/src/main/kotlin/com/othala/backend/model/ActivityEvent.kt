@@ -7,8 +7,7 @@ data class ActivityEvent(
     val id: UUID,
     val userId: UUID,
     val occurredAt: OffsetDateTime,
-    val type: ActivityType,
-    val payload: Any,
+    val payload: ActivityEventPayload,
     val source: ActivitySource,
     val status: ActivityStatus,
 )
