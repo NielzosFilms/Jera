@@ -31,6 +31,8 @@ class ActivityRepository(
     fun findAll(): List<ActivityEvent> =
         jdbc.query("SELECT * FROM activity_events", activityEventMapper)
 
+    // INSERT
+
     fun insert(activityEvent: ActivityEvent): Int =
         jdbc.update(
             """

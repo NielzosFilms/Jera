@@ -5,5 +5,5 @@ import java.util.UUID
 data class Skill(
     val id: UUID,
     val skill: String,
-    val parentSkill: UUID,
+    val parentSkill: UUID? = null,
 )

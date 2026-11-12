@@ -36,8 +36,7 @@ CREATE TABLE skill_progress
 
 CREATE TABLE attributes
 (
-    attribute VARCHAR(5) PRIMARY KEY,
-    meaning   VARCHAR(50) NOT NULL
+    attribute VARCHAR(5) PRIMARY KEY
 );
 
 CREATE TABLE skill_attributes
