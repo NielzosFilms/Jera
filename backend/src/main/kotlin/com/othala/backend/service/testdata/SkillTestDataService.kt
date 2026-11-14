@@ -145,7 +145,7 @@ class SkillTestDataService(
             0.3
         ))
         skillRepository.insert(SkillAttribute(
-            id("Mods"),
+            id("Mechanic"),
             AttributeEnum.CRE,
             0.4
         ))

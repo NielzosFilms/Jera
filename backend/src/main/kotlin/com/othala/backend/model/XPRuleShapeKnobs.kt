@@ -9,6 +9,6 @@ sealed interface XPRuleShapeKnobs {
     ) : XPRuleShapeKnobs
 
     data class Fixed(
-        val xp: Double,
+        val xp: Long,
     ) : XPRuleShapeKnobs
 }

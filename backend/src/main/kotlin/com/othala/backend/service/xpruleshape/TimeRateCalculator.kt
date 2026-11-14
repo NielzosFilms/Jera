@@ -4,13 +4,13 @@ import com.othala.backend.model.ActivityEventPayload
 import com.othala.backend.model.Timed
 import com.othala.backend.model.XPRuleShapeKnobs
 import org.springframework.stereotype.Component
-import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 @Component
 class TimeRateCalculator : TypedXPRuleShapeCalculator<XPRuleShapeKnobs.TimeRate>(
     XPRuleShapeKnobs.TimeRate::class,
 ) {
-    override fun calculateTyped(payload: ActivityEventPayload, knobs: XPRuleShapeKnobs.TimeRate): Int {
+    override fun calculateTyped(payload: ActivityEventPayload, knobs: XPRuleShapeKnobs.TimeRate): Long {
         val minutes = (payload as? Timed)?.timeInMinutes
             ?: throw IllegalStateException(
                 "TIME_RATE rule can't be applied to ${payload::class.simpleName}"
@@ -25,6 +25,6 @@ class TimeRateCalculator : TypedXPRuleShapeCalculator<XPRuleShapeKnobs.TimeRate>
         val regularXP = knobs.rateXP * regularMinutes
         val extraXP = knobs.rateXP * extraMinutes * (knobs.rateMultiplierAfterCap ?: 0.0)
 
-        return (base + regularXP + extraXP).roundToInt()
+        return (base + regularXP + extraXP).roundToLong()
     }
 }

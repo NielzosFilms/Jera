@@ -26,6 +26,13 @@ class XPRuleRepository(
     fun findAll(): List<XPRule> =
         jdbc.query("SELECT * FROM xp_rules", xpRuleMapper)
 
+    fun findAllFor(activityType: ActivityType): List<XPRule> =
+        jdbc.query(
+            "SELECT * FROM xp_rules WHERE activity_type = :activityType",
+            mapOf("activityType" to activityType.name),
+            xpRuleMapper
+        )
+
     // INSERT
 
     fun insert(xpRule: XPRule): Int =

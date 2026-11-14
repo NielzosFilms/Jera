@@ -6,7 +6,11 @@ import com.othala.backend.model.ActivitySource
 import com.othala.backend.model.ActivityStatus
 import com.othala.backend.model.ActivityType
 import com.othala.backend.repository.ActivityRepository
+import com.othala.backend.repository.SkillProgressRepository
 import com.othala.backend.repository.XPRuleRepository
+import com.othala.backend.service.XPService
+import com.othala.backend.service.testdata.SkillTestDataService
+import com.othala.backend.service.testdata.TestDataService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Test
@@ -20,10 +24,12 @@ import java.util.*
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FlowIT(
     @Autowired private val activityRepository: ActivityRepository,
-    @Autowired private val xpRuleRepository: XPRuleRepository,
+    @Autowired private val skillTestDataService: SkillTestDataService,
+    @Autowired private val skillProgressRepository: SkillProgressRepository,
+    @Autowired private val xpService: XPService,
 ) : BaseIntegrationTest() {
 
-    private val userId = UUID.randomUUID()
+    private val userId = TestDataService.userId
 
     private val climbingSessionId = UUID.randomUUID()
     private val climbingSendId = UUID.randomUUID()
@@ -31,32 +37,38 @@ class FlowIT(
 
     @Test
     fun `1 - Can insert ActivityEvents`() {
-        activityRepository.insert(ActivityEvent(
-            climbingSessionId,
-            userId,
-            OffsetDateTime.now(),
-            ActivityEventPayload.ClimbingSession(120),
-            ActivitySource.MANUAL,
-            ActivityStatus.PENDING,
-        ))
+        activityRepository.insert(
+            ActivityEvent(
+                climbingSessionId,
+                userId,
+                OffsetDateTime.now(),
+                ActivityEventPayload.ClimbingSession(120),
+                ActivitySource.MANUAL,
+                ActivityStatus.PENDING,
+            )
+        )
 
-        activityRepository.insert(ActivityEvent(
-            climbingSendId,
-            userId,
-            OffsetDateTime.now(),
-            ActivityEventPayload.ClimbingSend("6c+"),
-            ActivitySource.MANUAL,
-            ActivityStatus.PENDING,
-        ))
+        activityRepository.insert(
+            ActivityEvent(
+                climbingSendId,
+                userId,
+                OffsetDateTime.now(),
+                ActivityEventPayload.ClimbingSend("6c+"),
+                ActivitySource.MANUAL,
+                ActivityStatus.PENDING,
+            )
+        )
 
-        activityRepository.insert(ActivityEvent(
-            gamingSessionId,
-            userId,
-            OffsetDateTime.now(),
-            ActivityEventPayload.GamingSession(180),
-            ActivitySource.MANUAL,
-            ActivityStatus.PENDING,
-        ))
+        activityRepository.insert(
+            ActivityEvent(
+                gamingSessionId,
+                userId,
+                OffsetDateTime.now(),
+                ActivityEventPayload.GamingSession(180),
+                ActivitySource.MANUAL,
+                ActivityStatus.PENDING,
+            )
+        )
 
         val saved = activityRepository.findAll()
         assertThat(saved.size).isEqualTo(3)
@@ -69,11 +81,16 @@ class FlowIT(
     }
 
     @Test
-    fun `2 - XPRules exist`() {
+    fun `2 - Award XP should award to skills`() {
+        val climbingSkill = skillTestDataService.id("Climbing")
+        val gamingSkill = skillTestDataService.id("Gaming")
+        assertThat(skillProgressRepository.get(climbingSkill, userId)!!.xp).isZero()
+        assertThat(skillProgressRepository.get(gamingSkill, userId)!!.xp).isZero()
 
-    }
+        // Day review was done, award XP
+        activityRepository.findAll().forEach { xpService.award(it) }
 
-    fun `2 - Can calculate XP using ActivityEvents`() {
-
+        assertThat(skillProgressRepository.get(climbingSkill, userId)!!.xp).isEqualTo(280)
+        assertThat(skillProgressRepository.get(gamingSkill, userId)!!.xp).isEqualTo(180)
     }
 }

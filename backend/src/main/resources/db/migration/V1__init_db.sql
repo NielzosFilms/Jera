@@ -27,10 +27,10 @@ CREATE TABLE xp_rules
 
 CREATE TABLE skill_progress
 (
-    skill_id UUID NOT NULL REFERENCES skills (id),
-    user_id  UUID NOT NULL,
-    xp       INT  NOT NULL,
-    level    INT  NOT NULL,
+    skill_id UUID   NOT NULL REFERENCES skills (id),
+    user_id  UUID   NOT NULL,
+    xp       BIGINT NOT NULL,
+    level    INT    NOT NULL,
     PRIMARY KEY (skill_id, user_id)
 );
 

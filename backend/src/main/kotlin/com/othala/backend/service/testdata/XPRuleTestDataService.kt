@@ -17,17 +17,17 @@ class XPRuleTestDataService(
         ActivityType.CLIMB_SESSION -> XPRule(
             ActivityType.CLIMB_SESSION,
             skills.id("Climbing"),
-            XPRuleShapeKnobs.TimeRate(1.0)
+            XPRuleShapeKnobs.TimeRate(1.0, 40.0)
         )
         ActivityType.CLIMB_SEND -> XPRule(
             ActivityType.CLIMB_SEND,
             skills.id("Climbing"),
-            XPRuleShapeKnobs.Fixed(120.0)
+            XPRuleShapeKnobs.Fixed(120L)
         )
         ActivityType.GAMING_SESSION -> XPRule(
             ActivityType.GAMING_SESSION,
             skills.id("Gaming"),
-            XPRuleShapeKnobs.TimeRate(1.0)
+            XPRuleShapeKnobs.TimeRate(1.0, cappedAfterMinutes = 240, rateMultiplierAfterCap = 0.5)
         )
     }
 

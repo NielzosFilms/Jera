@@ -7,6 +7,7 @@ import org.springframework.context.event.EventListener
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.queryForObject
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 @Profile("dev")
@@ -15,8 +16,13 @@ class TestDataService(
     private val attributeTestDataService: AttributeTestDataService,
     private val skillTestDataService: SkillTestDataService,
     private val xpRuleTestDataService: XPRuleTestDataService,
+    private val userTestDataService: UserTestDataService,
 ) {
     private val log = LoggerFactory.getLogger(TestDataService::class.java)
+
+    companion object {
+        val userId = UUID.randomUUID()
+    }
 
     fun isDatabaseFilled(): Boolean =
         jdbc.queryForObject<Boolean>("SELECT EXISTS (SELECT 1 FROM attributes)") ?: false
@@ -32,6 +38,8 @@ class TestDataService(
         attributeTestDataService.insert()
         skillTestDataService.insert()
         xpRuleTestDataService.insert()
+
+        userTestDataService.initUser(userId)
 
         log.info("Done inserting test data")
     }
