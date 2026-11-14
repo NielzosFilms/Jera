@@ -1,6 +1,7 @@
 package com.othala.backend.repository
 
 import com.othala.backend.model.Skill
+import com.othala.backend.model.SkillAttribute
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
@@ -30,6 +31,19 @@ class SkillRepository(
                 "id" to skill.id,
                 "skill" to skill.skill,
                 "parentSkill" to skill.parentSkill,
+            )
+        )
+
+    fun insert(skillAttribute: SkillAttribute): Int =
+        jdbc.update(
+            """
+                INSERT INTO skill_attributes (skill_id, attribute, weight)
+                VALUES (:skillId, :attribute, :weight)
+            """.trimIndent(),
+            mapOf(
+                "skillId" to skillAttribute.skillId,
+                "attribute" to skillAttribute.attribute.name,
+                "weight" to skillAttribute.weight,
             )
         )
 }
