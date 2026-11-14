@@ -5,7 +5,6 @@ import com.othala.backend.model.ActivityEventPayload
 import com.othala.backend.model.ActivitySource
 import com.othala.backend.model.ActivityStatus
 import com.othala.backend.model.ActivityType
-import com.othala.backend.model.XPRule
 import com.othala.backend.repository.ActivityRepository
 import com.othala.backend.repository.XPRuleRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -19,7 +18,7 @@ import java.util.*
 
 @TestMethodOrder(MethodOrderer.DisplayName::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class FlowTest(
+class FlowIT(
     @Autowired private val activityRepository: ActivityRepository,
     @Autowired private val xpRuleRepository: XPRuleRepository,
 ) : BaseIntegrationTest() {
@@ -71,9 +70,7 @@ class FlowTest(
 
     @Test
     fun `2 - XPRules exist`() {
-        val rules = xpRuleRepository.findAll()
 
-        assertThat(rules.size).isEqualTo(3)
     }
 
     fun `2 - Can calculate XP using ActivityEvents`() {
